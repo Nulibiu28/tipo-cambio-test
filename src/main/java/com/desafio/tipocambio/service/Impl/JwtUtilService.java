@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtUtilService {
-    private static final String JWT_SECRET_KEY = "TExBVkVfTVVZX1NFQ1JFVEE=";
+    private static final String JWT_SECRET_KEY = "LLAVE_TIPO_CAMBIO";
 
     public static final long JWT_EXPIRATION = 1000 * 60 * 60 * (long) 8; // 8 Horas
 
