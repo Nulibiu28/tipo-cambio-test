@@ -47,6 +47,15 @@ public class TipoCambioController {
         return new ResponseEntity<>(tipoCambioService.getTipoDeCambioxTipos(monto,monedaOrigen,monedaDestino), HttpStatus.ACCEPTED) ;
     }
 
+    @PostMapping("/actualizartipo/{idTipo}/{nuevovalor}")
+    public ResponseEntity<Map<String, Object>> updateTipoCambio(
+            @PathVariable Long idTipo,
+            @PathVariable Double nuevovalor) throws RuntimeException {
+
+
+        return new ResponseEntity<>(tipoCambioService.updateTipoCambio(idTipo, nuevovalor), HttpStatus.ACCEPTED) ;
+    }
+
     @GetMapping("/obtenerToken")
     public ResponseEntity<TokenInfo> obtenerToken(@RequestBody Usuario usuario){
         authenticationManager.authenticate(

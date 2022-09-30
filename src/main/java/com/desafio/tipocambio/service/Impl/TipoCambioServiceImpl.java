@@ -22,22 +22,35 @@ public class TipoCambioServiceImpl implements TipoCambioService {
 
         Map<String, Object> map = new HashMap<>();
 
-        TipoCambioEntity cambio = tipoCambioRepository.findByMonedaOrigenAndMonedaDestino(tipoOrigen,tipoDestino);
+        tipoCambioRepository.findByMonedaOrigenAndMonedaDestino(tipoOrigen,tipoDestino)
+                .ifPresentOrElse(cambio -> {
+                    Double montoResultado = montoOrigen * cambio.getTipoCambio();
 
-        if(cambio != null){
-            Double montoResultado = montoOrigen * cambio.getTipoCambio();
+                    map.put("response", TipoCambioResponse.builder()
+                            .monto(montoOrigen)
+                            .montoTipoDeCambio(montoResultado)
+                            .monedaOrigen(tipoOrigen)
+                            .monedaDestino(tipoDestino)
+                            .tipoDeCambio(cambio.getTipoCambio())
+                            .build());
+                }, () -> {
+                    map.put("response", "No existe el tipo de cambio especificado");
+                });
 
-            map.put("response", TipoCambioResponse.builder()
-                    .monto(montoOrigen)
-                    .montoTipoDeCambio(montoResultado)
-                    .monedaOrigen(tipoOrigen)
-                    .monedaDestino(tipoDestino)
-                    .tipoDeCambio(cambio.getTipoCambio())
-                    .build());
+        return map;
+    }
 
-        }else{
-            map.put("response", "No existe el tipo de cambio especificado");
-        }
+    @Override
+    public Map<String, Object> updateTipoCambio(Long idTipo, Double nuevoValor) {
+        Map<String,Object> map = new HashMap<>();
+
+        tipoCambioRepository.findById(idTipo).ifPresentOrElse( cambio -> {
+            cambio.setTipoCambio(nuevoValor);
+            tipoCambioRepository.save(cambio);
+            map.put("response", "Se actualizo el tipo de cambio");
+        }, () -> {
+            map.put("response","No existe el tipo de cambio con el id: "+idTipo);
+        });
 
         return map;
     }

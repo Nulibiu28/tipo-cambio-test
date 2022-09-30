@@ -52,8 +52,8 @@ public class WebSecurityConfig {
                             try {
                                 authz
                                         .antMatchers("/api/obtenerToken").permitAll()
-                                        .antMatchers("/api/tipocambio").hasRole("ADMIN")
-                                        .antMatchers("/api/actualizarcambio").hasRole("ADMIN")
+                                        .antMatchers("/api/tipocambio").permitAll()
+                                        .antMatchers("/api/actualizartipo/**").hasRole("ADMIN")
                                         .anyRequest().authenticated()
                                         .and()
                                         .cors()

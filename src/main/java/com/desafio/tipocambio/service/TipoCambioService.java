@@ -7,4 +7,6 @@ import java.util.Map;
 
 public interface TipoCambioService {
     Map<String,Object> getTipoDeCambioxTipos(Double monto, String tipoOrigen, String tipoDestino);
+
+    Map<String,Object> updateTipoCambio(Long idTipo, Double nuevoValor);
 }
